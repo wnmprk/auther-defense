@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('contenteditable', function () {
+app.directive('contenteditable', function ($sanitize) {
 	return {
 		restrict: 'A',
 		require: '?ngModel',
@@ -10,7 +10,8 @@ app.directive('contenteditable', function () {
 				ngModel.$setViewValue(element.html());
 			}
 			ngModel.$render = function () {
-				element.html(ngModel.$viewValue || '');
+				var sanitary = $sanitize(ngModel.$viewValue || '');
+				element.html(sanitary);
 			};
 			element.bind('blur keyup change', function () {
 				scope.$apply(read);

@@ -3,6 +3,11 @@
 var router = require('express').Router(),
 	morgan = require('morgan');
 
-router.use(morgan(':method :url :status :response-time ms - :res[content-length]'));
+morgan.token('me', function (req) {
+	if (req.user) return req.user.name;
+	else return '(visitor)';
+});
+
+router.use(morgan(':method :url :me :status :response-time ms - :res[content-length]'));
 
 module.exports = router;

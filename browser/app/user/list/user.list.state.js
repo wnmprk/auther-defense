@@ -6,6 +6,13 @@ app.config(function ($stateProvider) {
 		templateUrl: '/browser/app/user/list/user.list.html',
 		controller: 'UserListCtrl',
 		resolve: {
+			currentUser: function (Auth) {
+				return Auth.refreshMe()
+				.then(function (me) {
+					if (!me._id) throw Error('Not logged in');
+					else return me;
+				});
+			},
 			users: function (User) {
 				return User.fetchAll();
 			}

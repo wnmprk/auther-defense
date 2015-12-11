@@ -12,21 +12,21 @@
 		<h4 class="media-heading tucked">
 			<div ng-if="isForm" contenteditable placeholder="Jean Doe" ng-model="user.name" class="form-like"></div>
 			<span ng-if="!isForm"
-				  contenteditable
+				  contenteditable="{{ $root.isMe(user) || $root.isAdmin() }}"
 				  placeholder="Jean Doe"
 				  ng-model="user.name"
 				  ng-model-options="{debounce: 500}"
 				  eat-click></span>
 			<span ng-if="!isForm"
-				  class="glyphicon glyphicon-certificate toggleable"
-				  ng-class="{transparent: !user.isAdmin}"
-				  ng-click="user.isAdmin = !user.isAdmin"
+				  class="glyphicon glyphicon-certificate"
+				  ng-class="{toggleable: $root.isAdmin(), transparent: !user.isAdmin}"
+				  ng-click="$root.isAdmin() && (user.isAdmin = !user.isAdmin)"
 				  eat-click></span>
 		</h4>
 		<h5 class="tucked">
 			<div ng-if="isForm" contenteditable placeholder="email@website.com" ng-model="user.email" class="form-like"></div>
 			<span ng-if="!isForm"
-				  contenteditable
+				  contenteditable="{{ $root.isMe(user) || $root.isAdmin() }}"
 				  ng-model="user.email"
 				  ng-model-options="{debounce: 500}"
 				  eat-click></span>
@@ -34,14 +34,14 @@
 		<h5 class="tucked">
 			<div ng-if="isForm" contenteditable placeholder="(555) 555-5555" ng-model="user.phone" class="form-like"></div>
 			<span ng-if="!isForm"
-				  contenteditable
+				  contenteditable="{{ $root.isMe(user) || $root.isAdmin() }}"
 				  placeholder="(555) 555-5555"
 				  ng-model="user.phone"
 				  ng-model-options="{debounce: 500}"
 				  eat-click></span>
 		</h5>
 	</div>
-	<div class="media-right media-middle">
+	<div ng-show="$root.isMe(user) || $root.isAdmin()" class="media-right media-middle">
 		<button ng-if="!isForm" class="btn btn-default" ng-click="removeUser()" eat-click>
 			<span class="glyphicon glyphicon-remove"></span>
 		</button>
